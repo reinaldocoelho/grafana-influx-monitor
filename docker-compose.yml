@@ -1,5 +1,6 @@
 version: "3"
 services:
+    # Grafana container docs: http://docs.grafana.org/installation/docker/
     grafana:
         image: "grafana/grafana"
         restart: always
@@ -7,6 +8,11 @@ services:
           - loggernet
         ports:
           - "3000:3000"
+        volumes:
+          - ./grafana-storage-data:/var/lib/grafana 
+        # Para futura configuração AD/LDAP: http://docs.grafana.org/auth/ldap/
+        env_file:
+          - ./env/grafana-variables.env
 
     influx:
         image: "influxdb"
