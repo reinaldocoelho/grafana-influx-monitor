@@ -7,7 +7,9 @@
 env/grafana-variables.env
 
 # Ignorando pasta de dados.
-influxdb-data/
+data/influxdb-data/
+data/grafana-storage-data/
+data/grafana-conf/provisioning/
 
 # User-specific files
 *.suo

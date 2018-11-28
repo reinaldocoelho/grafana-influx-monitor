@@ -9,7 +9,8 @@ services:
         ports:
           - "3000:3000"
         volumes:
-          - ./grafana-storage-data:/var/lib/grafana 
+          - ./data/grafana-storage-data:/var/lib/grafana
+          - ./data/grafana-conf:/etc/grafana
         # Para futura configuração AD/LDAP: http://docs.grafana.org/auth/ldap/
         env_file:
           - ./env/grafana-variables.env
