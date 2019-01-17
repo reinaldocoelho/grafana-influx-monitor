@@ -1,0 +1,548 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "description": "Conexões de administradores e dashboards.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#bf1b00",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "SELECT\n  DATEDIFF(second, '1970-01-01', getdate()) AS time,\n  COUNT(*) as value,\n  'logged_agent' as metric\nFROM\n  sessions with(nolock)\nWHERE\n  Type != 1\n  and\n  end_date IS NULL",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "50,80",
+      "title": "Administradores/Dashboard conectados",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "enContact SQL Server",
+      "description": "Quantidade de sessões ativas de operadores.",
+      "format": "short",
+      "gauge": {
+        "maxValue": 500,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 4,
+      "interval": "",
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#bf1b00",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "hide": false,
+          "rawSql": "SELECT\n  DATEDIFF(second, '1970-01-01', getdate()) AS time,\n  COUNT(*) as value,\n  'logged_agent' as metric\nFROM\n  sessions with(nolock)\nWHERE\n  Type = 1\n  and\n  end_date IS NULL",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "300,400",
+      "timeFrom": null,
+      "title": "Operadores conectados",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                350
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "frequency": "60s",
+        "handler": 1,
+        "message": "Aviso de pico de e-mails recebidos/enviados nos últimos 5 minutos.",
+        "name": "Emails Recebidos/Enviados alert",
+        "noDataState": "no_data",
+        "notifications": []
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 10,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "With cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', download_date) / 5), '20000101') As ReceivedDate,\n\t\t1 as Item\n\tFROM received_emails with(nolock)\n\tWHERE\n\t\t$__timeFilter(download_date)\n)\nSelect \n  DATEDIFF(second, '1970-01-01', ReceivedDate) AS time,\n  SUM(Item) As Value,\n  'Recebidos' as metric\nFrom cte\nGroup By ReceivedDate\nOrder By ReceivedDate\n",
+          "refId": "A"
+        },
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "\nWith cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', RegisterDate) / 5), '20000101') As RegisterDate,\n\t\t1 as Item\n\tFROM sent_emails with(nolock)\n\tWHERE\n\t\t$__timeFilter(RegisterDate)\n\t\tand\n\t\twas_sent = 1\n)\nSelect \n  DATEDIFF(second, '1970-01-01', RegisterDate) AS time,\n  SUM(Item) As Value,\n  'Envios confirmados' as metric\nFrom cte\nGroup By RegisterDate\nOrder By RegisterDate",
+          "refId": "B"
+        },
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "\nWith cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', RegisterDate) / 5), '20000101') As RegisterDate,\n\t\t1 as Item\n\tFROM sent_emails with(nolock)\n\tWHERE\n\t\t$__timeFilter(RegisterDate)\n\t\tand\n\t\twas_sent = 0\n)\nSelect \n  DATEDIFF(second, '1970-01-01', RegisterDate) AS time,\n  SUM(Item) As Value,\n  'Envios pendentes/falhos' as metric\nFrom cte\nGroup By RegisterDate\nOrder By RegisterDate",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 350
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Emails Recebidos/Enviados",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "locale",
+          "label": "Quantidade",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                15
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "frequency": "60s",
+        "handler": 1,
+        "name": "Logs no período alert",
+        "noDataState": "no_data",
+        "notifications": []
+      },
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "enContact SQL Server",
+      "description": "Apresenta um gráfico com a quantidade de logs gerados num determinado período.",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 5
+      },
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideZero": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "With cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', Date) / 5), '20000101') As LogDate,\n\t\t1 as Item\n\tFROM log with(nolock)\n\tWHERE\n\t\t$__timeFilter(Date)\n)\nSelect \n  DATEDIFF(second, '1970-01-01', LogDate) AS time,\n  SUM(Item) As Value,\n  'Quantidade Total' as metric\nFrom cte\nGroup By LogDate\nOrder By LogDate",
+          "refId": "A"
+        },
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "With cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', Date) / 5), '20000101') As LogDate,\n\t\t1 as Item\n\tFROM log with(nolock)\n\tWHERE\n\t\t$__timeFilter(Date)\n\t\tAND\n\t\tLevel = 'ERROR'\n)\nSelect \n  DATEDIFF(second, '1970-01-01', LogDate) AS time,\n  SUM(Item) As Value,\n  'Total Erros' as metric\nFrom cte\nGroup By LogDate\nOrder By LogDate",
+          "refId": "B"
+        },
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "With cte As\n(\n\tSELECT \n\t\tDateAdd(minute, 5 * (DateDiff(minute, '20000101', Date) / 5), '20000101') As LogDate,\n\t\t1 as Item\n\tFROM log with(nolock)\n\tWHERE\n\t\t$__timeFilter(Date)\n\t\tAND\n\t\tLevel = 'WARN'\n)\nSelect \n  DATEDIFF(second, '1970-01-01', LogDate) AS time,\n  SUM(Item) As Value,\n  'Total Warns' as metric\nFrom cte\nGroup By LogDate\nOrder By LogDate",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 15
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Logs no período",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "locale",
+          "label": "Quantidade",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": "enContact SQL Server",
+      "description": "Apresenta todas as inconsistências detectadas no sistema que precisem ser ajustadas manualmente.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 12,
+      "links": [],
+      "pageSize": 10,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "",
+          "format": "table",
+          "rawSql": "select c.ClientId, cl.NickName as ClientName, c.Id as ContactId, e.Id as EmailId, c.UserId as ContactUser, e.UserId as EmailUser, e.Date as EmailDate, 'UPDATE Contact SET UserId = 0 WHERE Id = ' + CAST(ContactId as nvarchar) as 'Update Command' from Contact c with(nolock) inner join emails e with(nolock) on e.ContactId = c.Id and c.EmailId = e.Id inner join client cl with(nolock) on cl.Id = c.ClientId where c.Status = 4 and e.Status = 2 and e.UserId != c.UserId and cl.Active = 1",
+          "refId": "A"
+        }
+      ],
+      "title": "Apresentação inconsistências detectadas",
+      "transform": "table",
+      "transparent": true,
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Dashboard enContact",
+  "uid": "Hj9vCoYik",
+  "version": 12
+}
